@@ -44,8 +44,12 @@ Work through every section. Record an evidence level per line, not a tick.
 ```text
 [ ] the correct resource type for the environment
     (VMServiceScrape on kubernetes-talos; vmagent discovery elsewhere)
-[ ] no ServiceMonitor, PodMonitor, PrometheusRule or serviceMonitor.enabled in a
-    VictoriaMetrics profile
+[ ] no ServiceMonitor, PodMonitor or PrometheusRule is RENDERED in a
+    VictoriaMetrics profile — check the values that gate the template, not
+    whether a template file exists; an upstream chart shipping
+    templates/servicemonitor.yaml with enabled: false is correct
+[ ] the Prometheus/VictoriaMetrics datasource declares timeInterval equal to the
+    scrape interval, so $__rate_interval and $__interval have a real floor
 [ ] the target is confirmed up with a recent successful scrape
 [ ] scrape timeout is below the interval, with margin
 [ ] relabeling introduces no identity label
@@ -74,12 +78,24 @@ Work through every section. Record an evidence level per line, not a tick.
 ## 7. Dashboards
 
 ```text
+[ ] panel descriptions were read before any query was judged wrong
+[ ] compared against sibling dashboards in the same repository; a label filter
+    present in siblings and absent here is a finding until explained
+[ ] every metric name traces to the scrape config, the instrumentation or a
+    recording rule — checkable from source, before any live query
+[ ] every range selector is $__rate_interval; a literal window or $__interval is
+    justified against the scrape interval
+[ ] a panel shows up{job="..."} so a lost target is distinguishable from no traffic
 [ ] built after runtime series existed; queries were run and returned data
 [ ] source JSON is authoritative and lives in the owning repository
-[ ] source and generated artifact change in the same commit
-[ ] ratios aggregate before dividing; instance identity aggregated away
+[ ] source and generated artifact change in the same commit; no generated
+    artifact exists without a source file
+[ ] ratios aggregate before dividing
+[ ] rate and ratio panels aggregate instance identity away; resource and
+    saturation panels DO split by pod — that is how one bad replica is found
 [ ] the intentional empty state is distinguishable from a broken panel
-[ ] logs links carry the time range and use bounded stream selectors
+[ ] logs links carry the time range and use bounded stream selectors; a log panel
+    embedded in the same dashboard already satisfies this
 [ ] no template variable enumerates a high-cardinality label
 ```
 

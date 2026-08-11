@@ -1,6 +1,6 @@
 # Dashboards
 
-## Five rules
+## Seven rules
 
 1. **Query the actual runtime series first.** Before writing a panel, run the
    query against VictoriaMetrics and look at the result. A dashboard authored from
@@ -22,13 +22,28 @@
    drill-down that jumps to "now" loses the incident, and one that filters on an
    unbounded label produces a query that never returns.
 
+6. **Read the panel description before judging its query.** In a repository that
+   documents its choices, the reasoning sits next to the expression and is
+   usually newer than anything in `docs/`. A reviewer who reads only the query
+   re-derives a decision that was already made, and reports it as a defect.
+
+7. **Diff against the sibling dashboards in this repository.** A label filter
+   that every other dashboard carries and this one lacks is a defect no
+   standalone rule can see — the file looks correct on its own. This is where the
+   highest-value findings come from.
+
 ## Panel review
 
 ```text
 does the query return data right now, against the real backend?
 is the aggregation correct — sum before divide, not divide before sum?
-does rate() have a window of at least 4x the scrape interval?
-are units set, and do they match the metric's unit?
+is every range selector $__rate_interval? a literal window or $__interval must be
+  justified against the scrape interval — "at least 4x the scrape interval" is
+  NOT a usable check, because $__rate_interval satisfies it by definition and the
+  check then passes over increase(...[$__interval]), which is the real defect
+does the datasource declare timeInterval, so $__interval has a floor?
+are units set on panels that show a measured quantity? (log, table and identity
+  panels such as build_info have none)
 is the legend readable without an identity label in it?
 does the panel answer a question an operator actually asks during an incident?
 ```

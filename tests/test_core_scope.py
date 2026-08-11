@@ -161,3 +161,97 @@ def test_templates_do_not_hardcode_a_repository_specific_path() -> None:
     for relative in ARTIFACT_TEMPLATES:
         text = (REPO_ROOT / relative).read_text(encoding="utf-8")
         assert "<artifacts.root>" in text, f"{relative}: hardcodes a path"
+
+
+# --- dashboard review checklist -------------------------------------------
+#
+# Each assertion below corresponds to a defect found by running the checklist
+# against three real dashboards. The worst was a line that ticked PASS for the
+# exact case it existed to catch.
+
+CHECKLIST = (
+    "skills/onprem-observability/kubernetes-observability/assets/"
+    "dashboard-review-checklist.md"
+)
+RUBRIC = "skills/onprem-observability/observability-review/references/review-rubric.md"
+
+
+def _read(relative: str) -> str:
+    return (REPO_ROOT / relative).read_text(encoding="utf-8")
+
+
+def test_no_skill_states_the_useless_rate_window_rule() -> None:
+    """"at least 4x the scrape interval" is satisfied by $__rate_interval by
+    definition, so it passes over increase(...[$__interval]) — the real defect."""
+    offenders = []
+    for path in _iter_files(CORE):
+        text = path.read_text(encoding="utf-8")
+        for lineno, line in enumerate(text.splitlines(), 1):
+            if "4x the scrape" not in line:
+                continue
+            # Naming the bad rule in order to reject it is allowed.
+            window = "\n".join(text.splitlines()[max(0, lineno - 4):lineno + 3])
+            if not re.search(r"(?i)\b(NOT a usable check|Do not check)\b", window):
+                offenders.append(f"{path.relative_to(REPO_ROOT)}:{lineno}")
+    assert offenders == []
+
+
+def test_checklist_requires_rate_interval_and_datasource_floor() -> None:
+    text = _read(CHECKLIST)
+    assert "$__rate_interval" in text
+    assert "jsonData.timeInterval" in text
+    assert "increase(...[$__interval])" in text
+
+
+def test_checklist_distinguishes_rate_panels_from_resource_panels() -> None:
+    text = _read(CHECKLIST)
+    assert "DO split by pod" in text
+    assert "sum without (instance, pod)" in text
+
+
+def test_checklist_exempts_histogram_mean_and_unitless_panels() -> None:
+    text = _read(CHECKLIST)
+    assert "sum(rate(x_sum)) / sum(rate(x_count))" in text
+    assert "build_info" in text
+
+
+def test_checklist_has_a_target_health_section() -> None:
+    text = _read(CHECKLIST)
+    assert 'up{job="..."}' in text
+    assert "no traffic" in text
+
+
+def test_checklist_requires_sibling_comparison() -> None:
+    text = _read(CHECKLIST)
+    assert "sibling dashboards" in text.lower()
+
+
+def test_checklist_requires_reading_descriptions_first() -> None:
+    text = _read(CHECKLIST)
+    head = text.split("## 1.")[0]
+    assert "description" in head.lower(), "must come before the judging sections"
+    assert "NEWER" in head or "newer" in head
+
+
+def test_checklist_separates_source_checkable_from_backend_checkable() -> None:
+    text = _read(CHECKLIST)
+    assert "Metric provenance" in text
+    assert "checkable from source" in text.lower()
+    assert "needs the real backend" in text.lower()
+
+
+def test_checklist_requires_a_source_for_every_generated_artifact() -> None:
+    assert "generated artifact with no source" in _read(CHECKLIST).lower()
+
+
+def test_rubric_checks_rendered_resources_not_template_files() -> None:
+    text = _read(RUBRIC)
+    assert "RENDERED" in text
+    assert "enabled: false is correct" in text
+
+
+def test_rubric_dashboard_section_covers_the_new_checks() -> None:
+    section = _read(RUBRIC).split("## 7. Dashboards")[1].split("## 8.")[0]
+    for required in ('up{job="..."}', "sibling dashboards", "$__rate_interval",
+                     "descriptions were read", "DO split by pod"):
+        assert required in section, required

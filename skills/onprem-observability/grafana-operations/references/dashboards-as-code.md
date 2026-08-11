@@ -36,11 +36,18 @@ sum(rate(errors_total[5m])) / sum(rate(requests_total[5m]))
 ```
 
 ```text
-rate() windows at least 4x the scrape interval
-aggregate away instance identity: sum without (instance, pod)
+every range selector is $__rate_interval; a literal window or $__interval is
+  justified against the scrape interval
+the datasource declares timeInterval, so $__interval has a floor
+rate and ratio panels aggregate identity away: sum without (instance, pod)
+resource and saturation panels DO split by pod — that is how one bad replica
+  is found; aggregating it away removes the panel's purpose
 histogram quantiles via histogram_quantile over _bucket, never avg
-units set on every panel, matching the metric's unit
-a guard on any divide whose denominator can legitimately be zero
+units set on panels that show a measured quantity; log, table and identity
+  panels such as build_info have none
+a guard on any divide whose denominator can legitimately be zero — but
+  sum(rate(x_sum))/sum(rate(x_count)) is the mean-from-histogram idiom, not a
+  missing guard
 ```
 
 ## The empty state
