@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "plugins": [
+    {
+      "name": "onprem-observability",
+      "description": "On-premises-only observability skills for Grafana OSS, Loki, Alloy, VictoriaMetrics GitOps, capability-based application instrumentation, and evidence-based reviews.",
+      "version": "0.1.0",
+      "category": "observability",
+      "tags": [
+        "observability",
+        "onprem",
+        "grafana-oss",
+        "loki",
+        "alloy",
+        "victoriametrics",
+        "prometheus"
+      ],
+      "skills": []
+    },
+    {
+      "name": "onprem-observability-adapters",
+      "description": "Language and framework adapters that implement the on-premises observability contract without assuming a specific runtime or orchestrator.",
+      "version": "0.1.0",
+      "category": "observability",
+      "tags": [
+        "observability",
+        "onprem",
+        "instrumentation",
+        "adapters"
+      ],
+      "skills": []
+    }
+  ]
+}

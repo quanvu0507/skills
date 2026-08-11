@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "deployment_model": "onprem",
+  "forbidden_skill_prefixes": [
+    "skills/grafana-cloud/"
+  ],
+  "skills": [
+    "skills/grafana-core/alloy",
+    "skills/grafana-core/dashboarding",
+    "skills/grafana-core/grafana-oss",
+    "skills/grafana-core/promql",
+    "skills/grafana-lgtm/loki",
+    "skills/grafana-lgtm/prometheus"
+  ],
+  "declared_but_not_yet_present": [
+    "skills/onprem-observability-adapters/rust",
+    "skills/onprem-observability-adapters/scala-play",
+    "skills/onprem-observability/application-instrumentation",
+    "skills/onprem-observability/grafana-operations",
+    "skills/onprem-observability/kubernetes-observability",
+    "skills/onprem-observability/log-pipeline",
+    "skills/onprem-observability/metrics-pipeline",
+    "skills/onprem-observability/observability-contract",
+    "skills/onprem-observability/observability-review",
+    "skills/onprem-observability/vm-docker-observability"
+  ]
+}

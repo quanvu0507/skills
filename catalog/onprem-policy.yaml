@@ -1,0 +1,57 @@
+schema_version: 1
+deployment_model: onprem
+
+# Skill paths that may enter an on-prem distribution artifact. Anything not
+# listed here is not distributable, even when it exists in the Git tree.
+allowed_skill_paths:
+  - skills/grafana-core/grafana-oss
+  - skills/grafana-core/dashboarding
+  - skills/grafana-core/promql
+  - skills/grafana-core/alloy
+  - skills/grafana-lgtm/loki
+  - skills/grafana-lgtm/prometheus
+  - skills/onprem-observability/observability-contract
+  - skills/onprem-observability/application-instrumentation
+  - skills/onprem-observability/log-pipeline
+  - skills/onprem-observability/metrics-pipeline
+  - skills/onprem-observability/kubernetes-observability
+  - skills/onprem-observability/vm-docker-observability
+  - skills/onprem-observability/grafana-operations
+  - skills/onprem-observability/observability-review
+  - skills/onprem-observability-adapters/scala-play
+  - skills/onprem-observability-adapters/rust
+
+forbidden_skill_prefixes:
+  - skills/grafana-cloud/
+
+forbidden_domains:
+  - grafana.net
+  - api.k6.io
+  - cloudlogs.k6.io
+
+forbidden_literals:
+  - glc_
+  - MetricsPublisher
+  - LogsPublisher
+  - TracesPublisher
+
+# Paths scanned for forbidden domains and literals. Immutable upstream skill text
+# is deliberately out of scope — see immutable_upstream_content_policy.
+scan_scope:
+  - skills/onprem-observability/**
+  - skills/onprem-observability-adapters/**
+  - catalog/**
+  - selections/**
+  - generated-config/**
+  - agent-output/**
+
+# Upstream skills may document both OSS and Cloud variants. The text stays as-is
+# so upstream sync remains mechanical; the private on-prem runtime contract has
+# higher precedence and forbids executing the Cloud branches. Benchmark and
+# output checks fail when an agent emits them.
+immutable_upstream_content_policy: allow-text-but-forbid-cloud-execution
+
+allowed_source_modes:
+  - connected-git
+  - internal-mirror
+  - local-checkout

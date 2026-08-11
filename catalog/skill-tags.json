@@ -1,0 +1,476 @@
+{
+  "schema_version": 1,
+  "_comment": "Curated discovery tags per skill path. Seeded from the upstream registry; new skills inherit their plugin tags until curated here.",
+  "tags": {
+    "skills/grafana-app-sdk/admission-control": [
+      "app-sdk",
+      "admission",
+      "validation",
+      "mutation",
+      "webhook",
+      "kubernetes"
+    ],
+    "skills/grafana-app-sdk/app-sdk-concepts": [
+      "app-sdk",
+      "app-platform",
+      "grafana",
+      "kubernetes",
+      "operator",
+      "cue"
+    ],
+    "skills/grafana-app-sdk/cue-kind-definition": [
+      "app-sdk",
+      "cue",
+      "kinds",
+      "schema",
+      "codegen",
+      "app-platform"
+    ],
+    "skills/grafana-app-sdk/reconciler-logic": [
+      "app-sdk",
+      "reconciler",
+      "watcher",
+      "kubernetes",
+      "controller",
+      "operator"
+    ],
+    "skills/grafana-cloud/adaptive-metrics": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/admin": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/app-observability": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/assistant-mcp": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/cloud-integrations": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/cost-management": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/database-observability": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/dpm-finder": [
+      "grafana-cloud",
+      "dpm",
+      "metrics",
+      "cost-optimization",
+      "prometheus",
+      "professional-services"
+    ],
+    "skills/grafana-cloud/fleet-management": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/infrastructure": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/loki-label-analyzer": [
+      "grafana-cloud",
+      "loki",
+      "logs",
+      "labels",
+      "cardinality",
+      "alloy"
+    ],
+    "skills/grafana-cloud/ml-ai": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/oncall-irm": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/private-connectivity": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/prometheus-cardinality-troubleshooter": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/prometheus-label-strategy": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/send-data": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-cloud/synthetic-monitoring-checks": [
+      "grafana-cloud",
+      "synthetic-monitoring",
+      "k6",
+      "browser-checks",
+      "uptime",
+      "checks",
+      "terraform"
+    ],
+    "skills/grafana-cloud/testing": [
+      "grafana-cloud",
+      "alloy",
+      "adaptive-metrics",
+      "mcp",
+      "infrastructure",
+      "kubernetes",
+      "synthetic-monitoring",
+      "database",
+      "privatelink",
+      "cost-management"
+    ],
+    "skills/grafana-core/alerting-irm": [
+      "grafana",
+      "dashboards",
+      "promql",
+      "panels",
+      "alloy",
+      "beyla",
+      "opentelemetry",
+      "alerting"
+    ],
+    "skills/grafana-core/alloy": [
+      "grafana",
+      "dashboards",
+      "promql",
+      "panels",
+      "alloy",
+      "beyla",
+      "opentelemetry",
+      "alerting"
+    ],
+    "skills/grafana-core/beyla": [
+      "grafana",
+      "dashboards",
+      "promql",
+      "panels",
+      "alloy",
+      "beyla",
+      "opentelemetry",
+      "alerting"
+    ],
+    "skills/grafana-core/dashboarding": [
+      "grafana",
+      "dashboards",
+      "promql",
+      "panels",
+      "alloy",
+      "beyla",
+      "opentelemetry",
+      "alerting"
+    ],
+    "skills/grafana-core/grafana-oss": [
+      "grafana",
+      "dashboards",
+      "promql",
+      "panels",
+      "alloy",
+      "beyla",
+      "opentelemetry",
+      "alerting"
+    ],
+    "skills/grafana-core/opentelemetry": [
+      "grafana",
+      "dashboards",
+      "promql",
+      "panels",
+      "alloy",
+      "beyla",
+      "opentelemetry",
+      "alerting"
+    ],
+    "skills/grafana-core/promql": [
+      "grafana",
+      "dashboards",
+      "promql",
+      "panels",
+      "alloy",
+      "beyla",
+      "opentelemetry",
+      "alerting"
+    ],
+    "skills/grafana-core/skill-authoring": [
+      "grafana",
+      "dashboards",
+      "promql",
+      "panels",
+      "alloy",
+      "beyla",
+      "opentelemetry",
+      "alerting"
+    ],
+    "skills/grafana-datasources/datasources-provisioning": [
+      "grafana",
+      "plugins",
+      "data-sources"
+    ],
+    "skills/grafana-k6/k6": [
+      "k6",
+      "load-testing",
+      "performance",
+      "browser",
+      "protocol",
+      "authoring"
+    ],
+    "skills/grafana-k6/k6-cloud-investigate-test": [
+      "k6",
+      "load-testing",
+      "grafana-cloud",
+      "test-runs",
+      "debugging",
+      "logs",
+      "metrics"
+    ],
+    "skills/grafana-k6/k6-docs": [
+      "k6",
+      "load-testing",
+      "documentation",
+      "typescript",
+      "release-notes"
+    ],
+    "skills/grafana-k6/k6-manage": [
+      "k6",
+      "load-testing",
+      "grafana-cloud",
+      "gcx",
+      "test-runs",
+      "metrics",
+      "logs"
+    ],
+    "skills/grafana-k6/k6-perf-test-website": [
+      "k6",
+      "load-testing",
+      "performance",
+      "browser",
+      "slo",
+      "grafana-cloud"
+    ],
+    "skills/grafana-k6/k6-test-maintenance": [
+      "k6",
+      "load-testing",
+      "test-maintenance",
+      "thresholds",
+      "migration",
+      "refactoring"
+    ],
+    "skills/grafana-k6/k6-trend-analysis": [
+      "k6",
+      "load-testing",
+      "grafana-cloud",
+      "trends",
+      "regression",
+      "thresholds",
+      "metrics"
+    ],
+    "skills/grafana-lgtm/loki": [
+      "loki",
+      "logs",
+      "logql",
+      "log-aggregation",
+      "logging"
+    ],
+    "skills/grafana-lgtm/mimir": [
+      "loki",
+      "tempo",
+      "prometheus",
+      "mimir",
+      "pyroscope",
+      "lgtm",
+      "tracing",
+      "logging",
+      "profiling"
+    ],
+    "skills/grafana-lgtm/prometheus": [
+      "prometheus",
+      "mimir",
+      "metrics",
+      "promql",
+      "alerting",
+      "recording-rules"
+    ],
+    "skills/grafana-lgtm/pyroscope": [
+      "pyroscope",
+      "profiling",
+      "flame-graphs",
+      "performance",
+      "continuous-profiling"
+    ],
+    "skills/grafana-lgtm/tempo": [
+      "tempo",
+      "tracing",
+      "traceql",
+      "opentelemetry",
+      "distributed-tracing",
+      "service-graph"
+    ],
+    "skills/grafana-plugins/audit-and-reduce-dependencies": [
+      "plugins",
+      "pnpm",
+      "dependencies",
+      "supply-chain",
+      "lockfile",
+      "node_modules"
+    ],
+    "skills/grafana-plugins/check-npm": [
+      "plugins",
+      "npm",
+      "pnpm",
+      "supply-chain",
+      "security",
+      "dependencies"
+    ],
+    "skills/grafana-plugins/grafana-scenes": [
+      "plugins",
+      "scenes",
+      "react",
+      "grafana-scenes",
+      "drilldown",
+      "panels"
+    ],
+    "skills/grafana-plugins/plugin-bundle-size": [
+      "plugins",
+      "bundle-size",
+      "webpack",
+      "react",
+      "performance"
+    ],
+    "skills/grafana-plugins/react-19-plugin-migration": [
+      "plugins",
+      "react",
+      "migration",
+      "react-19"
+    ]
+  }
+}
