@@ -17,7 +17,8 @@
       ],
       "skills": [
         "./skills/onprem-observability/kubernetes-observability",
-        "./skills/onprem-observability/observability-contract"
+        "./skills/onprem-observability/observability-contract",
+        "./skills/onprem-observability/observability-review"
       ]
     },
     {

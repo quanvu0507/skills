@@ -14,14 +14,14 @@
     "skills/onprem-observability-adapters/rust",
     "skills/onprem-observability-adapters/scala-play",
     "skills/onprem-observability/kubernetes-observability",
-    "skills/onprem-observability/observability-contract"
+    "skills/onprem-observability/observability-contract",
+    "skills/onprem-observability/observability-review"
   ],
   "declared_but_not_yet_present": [
     "skills/onprem-observability/application-instrumentation",
     "skills/onprem-observability/grafana-operations",
     "skills/onprem-observability/log-pipeline",
     "skills/onprem-observability/metrics-pipeline",
-    "skills/onprem-observability/observability-review",
     "skills/onprem-observability/vm-docker-observability"
   ]
 }

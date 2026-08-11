@@ -1,0 +1,50 @@
+schema_version: 1
+skill: observability-review
+path: skills/onprem-observability/observability-review
+
+positive:
+  - id: review-implementation-against-plan
+    prompt: "Review this observability implementation against the plan we agreed."
+    expects:
+      - "findings ordered by severity"
+      - "evidence level per finding"
+      - "validation matrix listing what was not verified"
+  - id: review-response-document
+    prompt: "The author replied to our review. Assess whether the findings were actually addressed."
+    expects:
+      - "distinguishes addressed from argued-against"
+      - "requires new evidence to change a finding"
+  - id: source-vs-runtime-conflict
+    prompt: "The code exports the metric but the dashboard is empty. Which do we believe?"
+    expects:
+      - "runtime wins for current state"
+      - "records both positions with evidence"
+  - id: alerting-completion-claim
+    prompt: "The team says alerting is done. The VMRule is merged. Is it?"
+    expects:
+      - "alerting is not operational without rule engine, receiver and synthetic delivery"
+    forbidden:
+      - "alerting is complete"
+  - id: duplicate-label-removal
+    prompt: "This metric has a label that looks redundant. Should we drop it?"
+    expects:
+      - "requires a series-count query before removing a unique label"
+    forbidden:
+      - "remove the label"
+
+negative:
+  - id: write-new-feature
+    prompt: "Implement a new REST endpoint for device registration."
+    reason: "Implementation work, not review."
+  - id: promql-syntax
+    prompt: "What is the difference between rate and irate?"
+    reason: "Upstream PromQL skill answers this."
+  - id: ci-pipeline-fix
+    prompt: "Our GitHub Actions workflow fails on the lint step."
+    reason: "CI debugging, not observability review."
+
+forbidden_outputs:
+  - "Grafana Professional Services"
+  - "proprietary and confidential"
+  - "grafana.net"
+  - "runtime-reproduced"   # only valid when the reviewer actually ran the command

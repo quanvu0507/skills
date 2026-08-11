@@ -791,6 +791,20 @@
             "victoriametrics",
             "prometheus"
           ]
+        },
+        {
+          "name": "observability-review",
+          "description": "Evidence-based review of on-premises observability work — implementations, plans and response documents. Classifies every finding by evidence level, assigns severity from impact plus evidence, and produces findings, an acceptance matrix, a risk register and a recommended PR sequence. Use when reviewing an observability implementation against its plan, auditing metric cardinality or log safety, checking whether alerting is genuinely operational, or verifying claims about deployment and runtime state.",
+          "path": "skills/onprem-observability/observability-review",
+          "tags": [
+            "observability",
+            "onprem",
+            "grafana-oss",
+            "loki",
+            "alloy",
+            "victoriametrics",
+            "prometheus"
+          ]
         }
       ]
     },
