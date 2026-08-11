@@ -16,9 +16,14 @@
         "prometheus"
       ],
       "skills": [
+        "./skills/onprem-observability/application-instrumentation",
+        "./skills/onprem-observability/grafana-operations",
         "./skills/onprem-observability/kubernetes-observability",
+        "./skills/onprem-observability/log-pipeline",
+        "./skills/onprem-observability/metrics-pipeline",
         "./skills/onprem-observability/observability-contract",
-        "./skills/onprem-observability/observability-review"
+        "./skills/onprem-observability/observability-review",
+        "./skills/onprem-observability/vm-docker-observability"
       ]
     },
     {

@@ -1,0 +1,82 @@
+schema_version: 1
+kind: capability-routing
+
+cases:
+  - id: node-dokploy-api
+    environment: docker-dokploy
+    capabilities: [http_api, database_client, external_http_client]
+    expected_skills:
+      - observability-contract
+      - application-instrumentation
+      - log-pipeline
+      - metrics-pipeline
+      - vm-docker-observability
+      - grafana-operations
+      - observability-review
+    forbidden_skills: [kubernetes-observability, scala-play]
+
+  - id: rust-desktop
+    environment: desktop-local
+    capabilities: [desktop_app, external_http_client]
+    expected_skills:
+      - observability-contract
+      - application-instrumentation
+      - observability-review
+      - rust
+    forbidden_skills:
+      - kubernetes-observability
+      - vm-docker-observability
+
+  - id: scala-kubernetes-worker
+    environment: kubernetes-talos
+    capabilities: [event_consumer, scheduled_jobs, database_client]
+    expected_skills:
+      - observability-contract
+      - application-instrumentation
+      - log-pipeline
+      - metrics-pipeline
+      - kubernetes-observability
+      - grafana-operations
+      - observability-review
+      - scala-play
+    forbidden_skills: [vm-docker-observability, rust]
+
+  - id: rust-axum-vm-systemd
+    environment: vm-systemd
+    capabilities: [http_api, database_client]
+    expected_skills:
+      - observability-contract
+      - application-instrumentation
+      - log-pipeline
+      - metrics-pipeline
+      - vm-docker-observability
+      - grafana-operations
+      - observability-review
+      - rust
+    forbidden_skills: [kubernetes-observability, scala-play]
+
+  - id: bare-metal-worker
+    environment: bare-metal
+    capabilities: [background_worker, scheduled_jobs]
+    expected_skills:
+      - observability-contract
+      - application-instrumentation
+      - log-pipeline
+      - metrics-pipeline
+      - vm-docker-observability
+      - grafana-operations
+      - observability-review
+    forbidden_skills: [kubernetes-observability]
+
+  - id: logs-only-library
+    environment: kubernetes-talos
+    capabilities: [library]
+    observability:
+      logging: required
+      metrics: disabled
+    expected_skills:
+      - observability-contract
+      - application-instrumentation
+      - log-pipeline
+      - observability-review
+    forbidden_skills: [metrics-pipeline, vm-docker-observability]

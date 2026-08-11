@@ -765,9 +765,65 @@
       "description": "On-premises-only observability skills for Grafana OSS, Loki, Alloy, VictoriaMetrics GitOps, capability-based application instrumentation, and evidence-based reviews.",
       "skills": [
         {
+          "name": "application-instrumentation",
+          "description": "Choose and instrument application boundaries from declared runtime capabilities — HTTP APIs, background workers, event consumers, scheduled jobs, WebSockets, database clients, outbound HTTP clients and actor systems. Defines terminal outcome, latency and in-flight semantics before code, and preserves business ordering, threading and wire compatibility. Use when deciding what to instrument in a service, adding metrics or logs to a new boundary, or reviewing whether instrumentation changed behaviour.",
+          "path": "skills/onprem-observability/application-instrumentation",
+          "tags": [
+            "observability",
+            "onprem",
+            "grafana-oss",
+            "loki",
+            "alloy",
+            "victoriametrics",
+            "prometheus"
+          ]
+        },
+        {
+          "name": "grafana-operations",
+          "description": "Operate Grafana OSS on-premises: provision datasources, keep dashboards in version control, validate panels against real series, navigate from metrics to logs with a preserved time range, own alert rules and receivers, test alert delivery, and plan backup, restore, runbooks and rollback. Use when a project owns or consumes Grafana dashboards, alert rules or runbooks, when dashboards have drifted from source, or when deciding whether alerting is genuinely operational.",
+          "path": "skills/onprem-observability/grafana-operations",
+          "tags": [
+            "observability",
+            "onprem",
+            "grafana-oss",
+            "loki",
+            "alloy",
+            "victoriametrics",
+            "prometheus"
+          ]
+        },
+        {
           "name": "kubernetes-observability",
           "description": "GitOps observability for on-premises Kubernetes backed by the VictoriaMetrics Operator. Covers VMServiceScrape targeting, VMRule rollout gates, dashboard ownership between source JSON and generated ConfigMaps, and gateway protection of management paths. Use when adding or reviewing scrape configuration, alert rules, dashboards or ingress policy for a service on Kubernetes or Talos, and whenever ServiceMonitor or PrometheusRule is proposed in a VictoriaMetrics cluster.",
           "path": "skills/onprem-observability/kubernetes-observability",
+          "tags": [
+            "observability",
+            "onprem",
+            "grafana-oss",
+            "loki",
+            "alloy",
+            "victoriametrics",
+            "prometheus"
+          ]
+        },
+        {
+          "name": "log-pipeline",
+          "description": "Ship application logs to Loki OSS through Alloy, from stdout or a host file, keeping index labels bounded and high-cardinality values as query-time fields. Covers JSON Lines validation, secret and PII redaction, Alloy write/retry/drop metrics, canary read-write verification, retention and ownership. Use when configuring or reviewing log collection, choosing Loki labels, debugging missing or dropped logs, or setting log retention for an on-premises project.",
+          "path": "skills/onprem-observability/log-pipeline",
+          "tags": [
+            "observability",
+            "onprem",
+            "grafana-oss",
+            "loki",
+            "alloy",
+            "victoriametrics",
+            "prometheus"
+          ]
+        },
+        {
+          "name": "metrics-pipeline",
+          "description": "Get Prometheus-compatible application metrics into VictoriaMetrics and make them usable in Grafana OSS. Covers scrape configuration per environment (VMServiceScrape on Kubernetes, vmagent static or file discovery elsewhere), metric inventory with unit, type and label domains, expected series count, scrape verification and a required consumer before a metric is called done. Use when configuring or reviewing metric collection, choosing a scrape mechanism, or debugging missing series and cardinality growth.",
+          "path": "skills/onprem-observability/metrics-pipeline",
           "tags": [
             "observability",
             "onprem",
@@ -796,6 +852,20 @@
           "name": "observability-review",
           "description": "Evidence-based review of on-premises observability work — implementations, plans and response documents. Classifies every finding by evidence level, assigns severity from impact plus evidence, and produces findings, an acceptance matrix, a risk register and a recommended PR sequence. Use when reviewing an observability implementation against its plan, auditing metric cardinality or log safety, checking whether alerting is genuinely operational, or verifying claims about deployment and runtime state.",
           "path": "skills/onprem-observability/observability-review",
+          "tags": [
+            "observability",
+            "onprem",
+            "grafana-oss",
+            "loki",
+            "alloy",
+            "victoriametrics",
+            "prometheus"
+          ]
+        },
+        {
+          "name": "vm-docker-observability",
+          "description": "Observability for services that do not run on Kubernetes — Docker or Dokploy containers, systemd units and bare-metal hosts. Covers unit and container health, host, process and container resource metrics, vmagent scrape configuration with static or file discovery, Alloy on the host, internal reverse-proxy management paths, and restart, persistence and runbook ownership. Use when instrumenting or reviewing a service deployed with Docker Compose, Dokploy, systemd or directly on a host.",
+          "path": "skills/onprem-observability/vm-docker-observability",
           "tags": [
             "observability",
             "onprem",
