@@ -72,6 +72,19 @@ Rollback/evidence gaps
 
 → [`references/output-contract.md`](references/output-contract.md)
 
+## Where the report goes
+
+A report nobody can find later is a report nobody reads. Write it to a path
+derived from the project's `artifacts.root`, which defaults to `docs/superpowers`:
+
+```text
+<artifacts.root>/reviews/YYYY-MM-DD-<slug>.md      this review
+<artifacts.root>/validation/YYYY-MM-DD-<slug>.md   the validator's report
+```
+
+The project profile may override `artifacts.root`. Never invent a location per
+session — six months on, nobody knows where the review of a given service went.
+
 ## What to check
 
 → [`references/review-rubric.md`](references/review-rubric.md) has the full rubric.

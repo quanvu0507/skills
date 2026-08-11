@@ -118,3 +118,46 @@ def test_every_core_skill_declares_onprem_compatibility() -> None:
         head = skill_md.read_text(encoding="utf-8")[:2000]
         assert "compatibility:" in head, skill_md
         assert "no Grafana Cloud" in head, skill_md
+
+
+# --- artifact locations ---------------------------------------------------
+#
+# A template that says what to write but not where to write it forces every
+# session to invent a path. Six months on, nobody can find the review of a given
+# service. The location is part of the contract.
+
+ARTIFACT_TEMPLATES = {
+    "skills/onprem-observability/observability-review/assets/review-report.template.md": "reviews",
+    "skills/onprem-observability/observability-review/assets/validation-matrix.template.md": "validation",
+}
+
+
+def test_every_template_states_where_it_is_saved() -> None:
+    for relative, folder in ARTIFACT_TEMPLATES.items():
+        text = (REPO_ROOT / relative).read_text(encoding="utf-8")
+        assert "Save as:" in text, f"{relative}: no save location"
+        assert f"/{folder}/" in text, f"{relative}: wrong folder, expected {folder}"
+        assert "artifacts.root" in text, f"{relative}: does not reference artifacts.root"
+
+
+def test_review_skill_documents_the_artifact_root() -> None:
+    skill = REPO_ROOT / "skills/onprem-observability/observability-review/SKILL.md"
+    text = skill.read_text(encoding="utf-8")
+    assert "artifacts.root" in text
+    assert "docs/superpowers" in text
+
+
+def test_output_contract_makes_the_location_binding() -> None:
+    contract = (
+        REPO_ROOT
+        / "skills/onprem-observability/observability-review/references/output-contract.md"
+    ).read_text(encoding="utf-8")
+    assert "Where the file goes" in contract
+    assert "artifacts.root" in contract
+
+
+def test_templates_do_not_hardcode_a_repository_specific_path() -> None:
+    """The default is a default, not a rule — a project may override the root."""
+    for relative in ARTIFACT_TEMPLATES:
+        text = (REPO_ROOT / relative).read_text(encoding="utf-8")
+        assert "<artifacts.root>" in text, f"{relative}: hardcodes a path"

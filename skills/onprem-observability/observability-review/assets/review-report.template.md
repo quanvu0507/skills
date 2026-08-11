@@ -1,5 +1,8 @@
 # Observability review — <subject>
 
+> **Save as:** `<artifacts.root>/reviews/YYYY-MM-DD-<slug>.md`
+> `artifacts.root` comes from the project profile; default `docs/superpowers`.
+
 **Reviewer:** <name>
 **Date:** YYYY-MM-DD
 **Release position:** release | release with follow-ups | blocked

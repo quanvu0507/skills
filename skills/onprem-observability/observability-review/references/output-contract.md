@@ -1,5 +1,18 @@
 # Output contract
 
+## Where the file goes
+
+```text
+<artifacts.root>/reviews/YYYY-MM-DD-<slug>.md
+```
+
+`artifacts.root` comes from the project profile and defaults to `docs/superpowers`.
+The slug names what was reviewed, not who reviewed it.
+
+The location is part of the output contract, not a detail left to the session. A
+review written to an ad-hoc path is unfindable the moment the session ends, and
+the next reviewer starts from nothing.
+
 ## Fixed section order
 
 ```text

@@ -6,6 +6,15 @@ This file records only the fork's own delta.
 Change classes: `upstream-sync`, `generic-skill`, `private-profile`,
 `trigger-breaking`, `security`, `installer`, `benchmark`.
 
+## upstream-0.1.0-onprem.2
+
+**generic-skill** — `observability-review` now states **where** its reports go, not
+only what they contain. Every template said what to include and none said where to
+save it, so each session invented a path and the reports became unfindable the
+moment the session ended. Locations derive from the project profile's
+`artifacts.root` (default `docs/superpowers`) rather than being hardcoded, and a
+test now fails if a template omits its save location.
+
 ## upstream-0.1.0-onprem.1
 
 **upstream-sync** — forked at upstream `d9dfb9ec7a6b1ac6c8ec9741ec045ad6f412dec6`,

@@ -1,5 +1,8 @@
 # Validation matrix — <subject>
 
+> **Save as:** `<artifacts.root>/validation/YYYY-MM-DD-<slug>.md`
+> `artifacts.root` comes from the project profile; default `docs/superpowers`.
+
 Every row needs a command or query, not an opinion. A row with no evidence belongs
 in the "not verified" column, not in the pass column.
 
