@@ -37,10 +37,13 @@
 ```text
 does the query return data right now, against the real backend?
 is the aggregation correct — sum before divide, not divide before sum?
-is every range selector $__rate_interval? a literal window or $__interval must be
-  justified against the scrape interval — "at least 4x the scrape interval" is
-  NOT a usable check, because $__rate_interval satisfies it by definition and the
-  check then passes over increase(...[$__interval]), which is the real defect
+resolution: does every rate/increase that follows the time range use
+  $__rate_interval? $__interval on a Prometheus counter is a finding — no floor
+  at the scrape interval. ("at least 4x the scrape interval" is NOT a usable
+  check: $__rate_interval satisfies it by definition and it then passes over
+  increase(...[$__interval]), the real defect.)
+span: is a literal window such as [24h] declared where the reader sees it? the
+  panel title counts, and a semantic span is not judged against scrape interval
 does the datasource declare timeInterval, so $__interval has a floor?
 are units set on panels that show a measured quantity? (log, table and identity
   panels such as build_info have none)

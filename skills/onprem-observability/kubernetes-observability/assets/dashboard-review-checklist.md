@@ -10,7 +10,15 @@ Copy into the review. Every line needs an answer, not a tick.
     and argue against it explicitly — do not silently overrule it
 [ ] when a description and a document in docs/ disagree, the description is
     usually NEWER; verify which, and say which you used
+[ ] where a description states the panel's PURPOSE, check the query achieves it
+    in every case, not only the common one — a gap between the stated purpose and
+    the query's behaviour is a finding, and usually a good one
 ```
+
+The last line is the reason this section produces findings rather than only
+suppressing false ones. A panel built to surface a specific failure, whose query
+returns No data in the worst variant of that same failure, is broken in the way
+that matters and looks fine in every other way.
 
 This section is first because skipping it produces most false findings. In a
 mature repository the reasoning lives next to the query, and a reviewer who reads
@@ -23,7 +31,15 @@ only the expression re-derives a decision that was already made and documented.
 [ ] for each shared metric family, diff the label filters between them
 [ ] any filter present in siblings and absent here is a finding until explained
 [ ] any filter present here and absent in siblings is a finding in the sibling
+[ ] match metric names in full and anchored — a substring search for `up{` also
+    matches `component_up{` and manufactures empty findings
 ```
+
+Expect part of this section's output to be differences that are correct on
+inspection: a limit gauge that needs no pod filter because the limit is identical
+across a workload's replicas, for example. Argue those away in writing rather
+than dropping them silently — the reasoning is what makes the next reviewer
+faster.
 
 Repository-wide conventions are invisible to a rule that reads one file. The
 highest-value findings usually come from this section, not from a general rule —
@@ -63,23 +79,42 @@ the query that would settle it. Do not mark them passed from source.
 
 ## 4. Time windows and the datasource
 
+Two different things live in a range selector. Judge them separately — conflating
+them is what makes this section either useless or noisy.
+
+**Resolution** — how finely a rate is computed. This one does depend on the
+scrape interval:
+
 ```text
-[ ] every range selector is $__rate_interval
-[ ] a literal window ([5m]) or $__interval is justified in the panel description
-    against the scrape interval, or it is a finding
-[ ] the Prometheus/VictoriaMetrics datasource declares jsonData.timeInterval
-    equal to the scrape interval
+[ ] every rate()/irate()/increase() that should follow the panel's time range
+    uses $__rate_interval
+[ ] $__interval on a Prometheus counter is a finding: it has no floor at the
+    scrape interval, so at wide time ranges the window collapses below a single
+    scrape and the panel empties — on exactly the panels worth alerting on
+[ ] the datasource declares jsonData.timeInterval equal to the scrape interval,
+    so $__rate_interval and $__interval have a real floor
 ```
 
-**Do not check "the window is at least 4x the scrape interval".** That phrasing is
-satisfied by `$__rate_interval` by definition, so it ticks PASS and misses the
-case it exists to catch: `increase(...[$__interval])` collapses below the scrape
-interval at wide time ranges and the panel goes empty — on exactly the panels
-worth alerting on.
+Exception: in a Loki query `$__interval` is the step and carries no such defect.
+Check the datasource type before flagging.
 
-Without `timeInterval` on the datasource, Grafana computes `$__rate_interval` from
-a default assumed scrape interval, and `$__interval` has no floor. One missing
-datasource field silently degrades every dashboard on the instance.
+**Span** — a fixed period the panel is *about*: restarts in the last 24h, errors
+in the last hour, a traffic gate. This has nothing to do with the scrape interval:
+
+```text
+[ ] a literal window is declared where the reader sees it — the panel TITLE
+    counts, and is usually the clearest place
+[ ] a literal window that appears in neither the title nor the description is a
+    finding: the reader cannot tell what period the number covers
+```
+
+**Do not ask a semantic span to be "justified against the scrape interval".** A
+panel titled `Restart (24h)` has already said what `[24h]` means; demanding a
+sentence in the description repeats what the title states plainly.
+
+**Do not check "the window is at least 4x the scrape interval".** `$__rate_interval`
+satisfies it by definition, so the check ticks PASS and misses
+`increase(...[$__interval])` — the defect it exists to catch.
 
 ## 5. Correctness
 
@@ -175,10 +210,14 @@ and satisfies this section — it is not a missing link.
 [ ] an owner is named for the dashboard
 ```
 
-A generated artifact with no source is a finding: nobody can tell which is
-authoritative, and editing it means editing output. Imported third-party
-dashboards either get their source committed or a note stating they are external
-artifacts that are not edited in place.
+A generated artifact with no source is a finding unless **both** hold: its
+provenance is recorded (upstream id, version, fetch command) **and** it can be
+regenerated in this environment.
+
+A note alone is not enough. Provenance answers "where did this come from";
+reproducibility answers "can we rebuild it". A dashboard whose regeneration needs
+network egress this environment blocks is not reproducible whatever its note
+says, and that gap belongs in the report rather than being waved through.
 
 ## 12. Purpose
 

@@ -78,18 +78,25 @@ Work through every section. Record an evidence level per line, not a tick.
 ## 7. Dashboards
 
 ```text
-[ ] panel descriptions were read before any query was judged wrong
+[ ] panel descriptions were read before any query was judged wrong; where a
+    description states the panel's purpose, the query achieves it in every case,
+    not only the common one
 [ ] compared against sibling dashboards in the same repository; a label filter
     present in siblings and absent here is a finding until explained
 [ ] every metric name traces to the scrape config, the instrumentation or a
     recording rule — checkable from source, before any live query
-[ ] every range selector is $__rate_interval; a literal window or $__interval is
-    justified against the scrape interval
+[ ] resolution: every rate/increase that follows the time range uses
+    $__rate_interval; $__interval on a Prometheus counter is a finding (no floor
+    at the scrape interval) — in Loki it is the step and is fine
+[ ] span: a literal window ([24h], [1h]) is declared where the reader sees it —
+    the panel TITLE counts. Do not ask a semantic span to be justified against
+    the scrape interval
 [ ] a panel shows up{job="..."} so a lost target is distinguishable from no traffic
 [ ] built after runtime series existed; queries were run and returned data
 [ ] source JSON is authoritative and lives in the owning repository
-[ ] source and generated artifact change in the same commit; no generated
-    artifact exists without a source file
+[ ] source and generated artifact change in the same commit; a generated
+    artifact without a source needs BOTH recorded provenance AND the ability to
+    be regenerated in this environment — a note alone is not enough
 [ ] ratios aggregate before dividing
 [ ] rate and ratio panels aggregate instance identity away; resource and
     saturation panels DO split by pod — that is how one bad replica is found

@@ -36,8 +36,11 @@ sum(rate(errors_total[5m])) / sum(rate(requests_total[5m]))
 ```
 
 ```text
-every range selector is $__rate_interval; a literal window or $__interval is
-  justified against the scrape interval
+resolution: rate/increase that follows the time range uses $__rate_interval;
+  $__interval on a Prometheus counter is a finding — it has no floor at the
+  scrape interval (in Loki it is the step, and is fine)
+span: a literal window such as [24h] is declared where the reader sees it —
+  the panel title counts; it is not judged against the scrape interval
 the datasource declares timeInterval, so $__interval has a floor
 rate and ratio panels aggregate identity away: sum without (instance, pod)
 resource and saturation panels DO split by pod — that is how one bad replica

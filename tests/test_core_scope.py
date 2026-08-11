@@ -191,7 +191,8 @@ def test_no_skill_states_the_useless_rate_window_rule() -> None:
                 continue
             # Naming the bad rule in order to reject it is allowed.
             window = "\n".join(text.splitlines()[max(0, lineno - 4):lineno + 3])
-            if not re.search(r"(?i)\b(NOT a usable check|Do not check)\b", window):
+            # \s+ because the disclaimer may wrap across lines.
+            if not re.search(r"(?i)\b(NOT\s+a\s+usable\s+check|Do\s+not\s+check)\b", window):
                 offenders.append(f"{path.relative_to(REPO_ROOT)}:{lineno}")
     assert offenders == []
 
@@ -255,3 +256,64 @@ def test_rubric_dashboard_section_covers_the_new_checks() -> None:
     for required in ('up{job="..."}', "sibling dashboards", "$__rate_interval",
                      "descriptions were read", "DO split by pod"):
         assert required in section, required
+
+
+# --- §4 resolution vs span ------------------------------------------------
+#
+# The v0.3.0 wording caught the real defect but demanded that semantic spans be
+# justified against the scrape interval — the wrong axis. Measured against three
+# real dashboards: 14 literal windows, 12 already declaring their span in the
+# panel title. These tests keep the two concepts apart.
+
+def test_no_skill_judges_a_semantic_span_against_the_scrape_interval() -> None:
+    offenders = []
+    for path in _iter_files(CORE):
+        text = path.read_text(encoding="utf-8")
+        for lineno, line in enumerate(text.splitlines(), 1):
+            if "justified against the scrape interval" not in line:
+                continue
+            window = "\n".join(text.splitlines()[max(0, lineno - 3):lineno + 2])
+            if not re.search(r"(?i)\b(Do not ask|not judged against)\b", window):
+                offenders.append(f"{path.relative_to(REPO_ROOT)}:{lineno}")
+    assert offenders == []
+
+
+def test_checklist_separates_resolution_from_span() -> None:
+    text = _read(CHECKLIST)
+    assert "**Resolution**" in text
+    assert "**Span**" in text
+    assert "the panel TITLE" in text
+    assert "Do not ask a semantic span" in text
+
+
+def test_checklist_makes_the_interval_rule_greppable() -> None:
+    """A reviewer should not have to infer whether $__interval is a defect."""
+    text = _read(CHECKLIST)
+    assert "$__interval on a Prometheus counter is a finding" in text
+    assert "in a Loki query `$__interval` is the step" in text
+
+
+def test_checklist_description_rule_produces_findings_not_only_suppression() -> None:
+    text = _read(CHECKLIST)
+    assert "states the panel's PURPOSE" in text
+    assert "in every case, not only the common one" in text
+
+
+def test_checklist_requires_anchored_metric_name_matching() -> None:
+    text = _read(CHECKLIST)
+    assert "full and anchored" in text
+    assert "component_up{" in text
+
+
+def test_checklist_requires_reproducibility_not_only_provenance() -> None:
+    text = _read(CHECKLIST)
+    assert "A note alone is not enough" in text
+    assert "regenerated in this environment" in text
+
+
+def test_rubric_mirrors_the_resolution_span_split() -> None:
+    section = _read(RUBRIC).split("## 7. Dashboards")[1].split("## 8.")[0]
+    assert "resolution:" in section
+    assert "span:" in section
+    assert "the panel TITLE counts" in section
+    assert "in Loki it is the step" in section

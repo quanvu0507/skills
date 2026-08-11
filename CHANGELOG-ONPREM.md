@@ -6,6 +6,46 @@ This file records only the fork's own delta.
 Change classes: `upstream-sync`, `generic-skill`, `private-profile`,
 `trigger-breaking`, `security`, `installer`, `benchmark`.
 
+## upstream-0.1.0-onprem.4
+
+**generic-skill** — checklist section 4 rewritten. The `onprem.3` wording caught
+the real defect but judged the wrong thing alongside it.
+
+A range selector holds two separate concepts, and the previous wording conflated
+them. **Resolution** — how finely a rate is computed — genuinely depends on the
+scrape interval. **Span** — the fixed period a panel is *about*, `[24h]` for
+"restarts in the last 24h" — does not. Asking a semantic span to be "justified
+against the scrape interval" is the wrong axis.
+
+Measured against three real dashboards: 14 literal windows, 12 of which already
+declared their span in the panel **title** (`Restart (24h)`, `Ack (msg/s, 5m)`).
+The rule demanded a description sentence repeating what the title states plainly,
+so it produced 12 to 14 false findings while correctly catching two real ones.
+
+Section 4 now judges the two separately, accepts the panel title as the place a
+span is declared, and states the resolution rule as a fact a reviewer can grep
+rather than infer: `$__interval` on a Prometheus counter is a finding; in Loki it
+is the step and is not.
+
+**generic-skill** — three smaller corrections from the same field run:
+
+- Section 0 gained a rule that makes descriptions a checkable contract rather than
+  only a shield against false findings: where a description states a panel's
+  purpose, the query must achieve it in **every** case. This produced the run's
+  best finding — a threshold panel that returns No data in the worst variant of
+  the very failure it exists to surface.
+- Section 1 now requires anchored, full metric-name matching; a substring search
+  for `up{` also matches `component_up{` and manufactures empty findings. It also
+  warns that this section legitimately yields differences that are correct on
+  inspection, and asks for those to be argued away in writing.
+- Section 11 no longer accepts a note as sufficient for a generated artifact with
+  no source. Provenance answers where it came from; reproducibility answers
+  whether it can be rebuilt. An artifact whose regeneration needs egress the
+  environment blocks is not reproducible whatever its note says.
+
+Seven further tests, including one that rejects judging a semantic span against
+the scrape interval anywhere in the core skills.
+
 ## upstream-0.1.0-onprem.3
 
 **generic-skill** — dashboard review checklist and rubric rewritten after running
