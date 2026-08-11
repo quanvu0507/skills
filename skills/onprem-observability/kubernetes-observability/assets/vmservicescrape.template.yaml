@@ -1,0 +1,46 @@
+# VMServiceScrape template — VictoriaMetrics Operator.
+#
+# Replace every <placeholder>. `port` is the NAME of the port in the Service,
+# not its number: a number matches nothing and produces no error.
+#
+# Do not convert this to ServiceMonitor. In a VictoriaMetrics cluster a
+# ServiceMonitor applies cleanly, reconciles nothing, and the scrape silently
+# never happens.
+
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: <service-name>
+  namespace: <namespace>
+  labels:
+    app.kubernetes.io/name: <service-name>
+spec:
+  selector:
+    matchLabels:
+      # These must match the labels on the SERVICE, not on the Pod.
+      app.kubernetes.io/name: <service-name>
+  namespaceSelector:
+    matchNames:
+      - <namespace>
+  endpoints:
+    - port: http                # Service port NAME
+      path: /metrics
+      interval: 30s
+      scrapeTimeout: 10s        # must stay comfortably below interval
+      # relabelConfigs:
+      #   # Drop a noisy family at ingest instead of storing it.
+      #   - action: drop
+      #     sourceLabels: [__name__]
+      #     regex: go_gc_duration_seconds.*
+      #
+      # Never relabel a pod name, pod IP or container id into a label:
+      # series identity would change on every rollout and rate() would break
+      # across the deployment boundary.
+
+# Verification after apply:
+#   kubectl -n <namespace> get vmservicescrape <service-name>
+#   kubectl -n <namespace> get svc <service-name> -o jsonpath='{.spec.ports[*].name}'
+#   PromQL:  up{job=~".*<service-name>.*"}
+#
+# "The resource exists" is not evidence. The target must show as up with a
+# recent successful scrape, and the expected series must return data.

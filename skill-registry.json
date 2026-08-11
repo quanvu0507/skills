@@ -765,6 +765,20 @@
       "description": "On-premises-only observability skills for Grafana OSS, Loki, Alloy, VictoriaMetrics GitOps, capability-based application instrumentation, and evidence-based reviews.",
       "skills": [
         {
+          "name": "kubernetes-observability",
+          "description": "GitOps observability for on-premises Kubernetes backed by the VictoriaMetrics Operator. Covers VMServiceScrape targeting, VMRule rollout gates, dashboard ownership between source JSON and generated ConfigMaps, and gateway protection of management paths. Use when adding or reviewing scrape configuration, alert rules, dashboards or ingress policy for a service on Kubernetes or Talos, and whenever ServiceMonitor or PrometheusRule is proposed in a VictoriaMetrics cluster.",
+          "path": "skills/onprem-observability/kubernetes-observability",
+          "tags": [
+            "observability",
+            "onprem",
+            "grafana-oss",
+            "loki",
+            "alloy",
+            "victoriametrics",
+            "prometheus"
+          ]
+        },
+        {
           "name": "observability-contract",
           "description": "On-premises-only observability contract for logs, metrics, correlation and rollout. Enforces bounded metric cardinality, JSON-Lines logs on stdout, internal-only telemetry backends (Grafana OSS, Loki OSS, Alloy, VictoriaMetrics) and evidence-based rollout. Use when asked to standardize logs, add metrics, integrate Loki or Grafana, review an observability plan, design a label strategy, instrument a legacy Scala/Play service, or work against a VictoriaMetrics-backed Grafana — and use it before any language- or runtime-specific observability skill.",
           "path": "skills/onprem-observability/observability-contract",

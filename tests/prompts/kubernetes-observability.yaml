@@ -1,0 +1,41 @@
+schema_version: 1
+skill: kubernetes-observability
+path: skills/onprem-observability/kubernetes-observability
+
+positive:
+  - id: add-scrape-config
+    prompt: "Add scrape configuration so VictoriaMetrics collects this service's metrics in our Kubernetes cluster."
+    environment: kubernetes-talos
+  - id: review-servicemonitor-proposal
+    prompt: "Review this ServiceMonitor we added for the payments service."
+    environment: kubernetes-talos
+    notes: "Must reject ServiceMonitor and require VMServiceScrape."
+  - id: alert-rules-talos
+    prompt: "Write alert rules for error rate and latency on our Talos cluster."
+    environment: kubernetes-talos
+  - id: dashboard-configmap-sync
+    prompt: "Our dashboard ConfigMap and the source JSON have drifted. How should we handle dashboards?"
+    environment: kubernetes-talos
+  - id: metrics-endpoint-exposure
+    prompt: "Is our /metrics endpoint reachable through the Gateway? How do we check?"
+    environment: kubernetes-talos
+
+negative:
+  - id: docker-compose-service
+    prompt: "Add metrics scraping for a service running under Docker Compose on a single VM."
+    environment: docker-dokploy
+    reason: "vm-docker-observability applies; no Kubernetes resources should be generated."
+  - id: desktop-app
+    prompt: "Add diagnostics to our desktop application."
+    environment: desktop-local
+    reason: "No central scrape; no Kubernetes resources."
+  - id: promql-syntax-question
+    prompt: "What is the difference between rate and irate?"
+    reason: "Upstream PromQL skill answers this; no cluster resource work."
+
+forbidden_outputs:
+  - "ServiceMonitor"
+  - "PrometheusRule"
+  - "serviceMonitor.enabled"
+  - "grafana.net"
+  - "image: latest"
