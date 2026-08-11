@@ -1,0 +1,51 @@
+name: Fork Security
+
+# Fork replacement for the upstream Snyk agent-scan workflow, which requires a
+# Grafana-internal Vault role. This runs a local content scan instead: no
+# external SaaS API and no credentials.
+#
+# Canonical source: fork-config/workflows/security.yml
+# scripts/sync-upstream.py restores this file into .github/workflows/fork-security.yml
+# after every upstream merge; edit the canonical source, never the copy.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.13'
+
+      - name: Scan public content for private material
+        run: python scripts/scan-public-content.py
+
+      # Scope: fork-owned paths only. Upstream skill text under skills/grafana-*
+      # documents Grafana Cloud basic-auth and is immutable here, so scanning it
+      # would fail forever without indicating a real leak. The on-prem policy
+      # checker is what stops that text from reaching a distribution artifact.
+      - name: Reject secret-like content
+        run: |
+          if git grep -nE '(BEGIN (RSA|OPENSSH|EC) PRIVATE KEY|glc_[A-Za-z0-9_-]+|password[[:space:]]*[:=])' -- \
+              'skills/onprem-observability*' 'catalog' 'docs' 'scripts' 'fork-config' 'tests' \
+              ':!tests/fixtures/**' ':!**/__pycache__/**' \
+              ':!scripts/scan-public-content.py' ':!tests/test_public_content.py' \
+              ':!tests/test_onprem_boundary.py' ':!scripts/check-onprem-boundary.py' \
+              ':!catalog/onprem-policy.yaml' ':!fork-config/workflows/security.yml'; then
+            echo "Forbidden secret-like content detected"
+            exit 1
+          fi
