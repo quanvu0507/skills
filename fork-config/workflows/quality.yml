@@ -48,6 +48,15 @@ jobs:
       - name: Validate catalog
         run: python scripts/validate-catalog.py
 
+      - name: On-prem boundary
+        run: |
+          python scripts/check-onprem-boundary.py \
+            --policy catalog/onprem-policy.yaml \
+            --marketplace .agents-plugin/marketplace.json \
+            --scan skills/onprem-observability \
+            --scan skills/onprem-observability-adapters \
+            --scan catalog/onprem-allowlist.json
+
       - name: Upstream boundary
         run: |
           python scripts/check-upstream-boundary.py \
