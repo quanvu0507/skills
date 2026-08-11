@@ -783,7 +783,19 @@
     {
       "name": "onprem-observability-adapters",
       "description": "Language and framework adapters that implement the on-premises observability contract without assuming a specific runtime or orchestrator.",
-      "skills": []
+      "skills": [
+        {
+          "name": "scala-play",
+          "description": "Instrument Scala/Play/Akka services for on-premises Prometheus-compatible metrics and JSON logging without changing business behaviour. Covers a private CollectorRegistry, reusing the existing Play port and request lifecycle, normalized route labels, safe Kafka consumer metrics, advisory-lock scheduled-job outcomes, Logback JSON encoding and health-state semantics. Use when adding or reviewing metrics, logging or health endpoints in a Scala, Play or Akka service, or when a legacy Play service must expose /metrics to VictoriaMetrics.",
+          "path": "skills/onprem-observability-adapters/scala-play",
+          "tags": [
+            "observability",
+            "onprem",
+            "instrumentation",
+            "adapters"
+          ]
+        }
+      ]
     }
   ]
 }

@@ -215,7 +215,9 @@
         "adapters"
       ],
       "managed_by": "onprem-catalog",
-      "skills": []
+      "skills": [
+        "./skills/onprem-observability-adapters/scala-play"
+      ]
     }
   ]
 }

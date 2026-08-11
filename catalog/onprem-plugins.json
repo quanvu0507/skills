@@ -30,7 +30,9 @@
         "instrumentation",
         "adapters"
       ],
-      "skills": []
+      "skills": [
+        "./skills/onprem-observability-adapters/scala-play"
+      ]
     }
   ]
 }

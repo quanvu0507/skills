@@ -1,0 +1,33 @@
+schema_version: 1
+skill: scala-play
+path: skills/onprem-observability-adapters/scala-play
+
+positive:
+  - id: add-play-metrics
+    prompt: "Add Prometheus metrics to our Play 2.8 service without adding a new port."
+  - id: kafka-consumer-lag
+    prompt: "We need Kafka consumer lag metrics in this Scala consumer service."
+  - id: scala-json-logging
+    prompt: "Switch our Logback configuration to JSON logging so Loki can parse it."
+  - id: play-health-endpoints
+    prompt: "Review the liveness and readiness endpoints in this Play application."
+  - id: akka-scheduled-jobs
+    prompt: "Instrument the five scheduled jobs in this Scala service, including the advisory-lock skips."
+
+negative:
+  - id: generic-rust
+    prompt: "How do I model ownership for a linked list in Rust?"
+    reason: "Different language; the Rust adapter applies instead."
+  - id: node-express-service
+    prompt: "Add request metrics to our Node.js Express API."
+    reason: "Different language; no Scala/Play content."
+  - id: kubernetes-storage
+    prompt: "Resize the PersistentVolumeClaim for our PostgreSQL StatefulSet."
+    reason: "Infrastructure storage task, not application instrumentation."
+
+forbidden_outputs:
+  - "OpenTelemetry"
+  - "OTLP"
+  - "second metrics port"
+  - "ServiceMonitor"
+  - "grafana.net"

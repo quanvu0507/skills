@@ -1,0 +1,71 @@
+# Metric inventory — fill this in BEFORE writing instrumentation code.
+#
+# The expected_series column is the point of this file: it is the product of every
+# label domain size. If a domain cannot be counted, the label is not finite and
+# must not exist. Catching that here costs a minute; catching it in production
+# costs a VictoriaMetrics incident that affects every team on the instance.
+
+schema_version: 1
+service: example-service
+
+metrics:
+  - name: http_server_requests_total
+    type: counter
+    unit: requests
+    help: Terminal HTTP request outcomes
+    labels:
+      method: { domain: [GET, POST, PUT, PATCH, DELETE], size: 5 }
+      route: { domain: route-template-list, size: 24 }
+      status_class: { domain: ["2xx", "3xx", "4xx", "5xx"], size: 4 }
+      outcome: { domain: [success, failure], size: 2 }
+    expected_series: 960          # 5 * 24 * 4 * 2 — recompute when routes change
+    recorded_at: play-filter-terminal-boundary
+    recorded_exactly_once: true
+    consumer: dashboard/service-overview
+    owner: example-service
+
+  - name: http_server_request_duration_seconds
+    type: histogram
+    unit: seconds
+    help: HTTP request duration
+    labels:
+      method: { domain: [GET, POST, PUT, PATCH, DELETE], size: 5 }
+      route: { domain: route-template-list, size: 24 }
+    buckets: [0.005, 0.025, 0.1, 0.25, 1, 2.5, 10]
+    bucket_rationale: >
+      Chosen from observed p50/p95/p99 in staging. Review when p99 lands in the
+      top or the bottom bucket — resolution is lost exactly where it matters.
+    expected_series: 960          # 5 * 24 * (7 buckets + _sum + _count)
+    recorded_at: play-filter-terminal-boundary
+    consumer: dashboard/service-overview
+    owner: example-service
+
+  - name: scheduled_job_runs_total
+    type: counter
+    unit: runs
+    help: Scheduled job terminal outcomes
+    labels:
+      job_name: { domain: fixed-enumerated-job-list, size: 5 }
+      outcome: { domain: [success, partial_failure, failure, skipped_lock], size: 4 }
+    expected_series: 20
+    recorded_at: advisory-lock-boundary
+    recorded_exactly_once: true
+    consumer: rule/job-staleness
+    owner: example-service
+
+# Rejected labels — keep this list so the next change does not re-propose them.
+rejected_labels:
+  - name: request_id
+    reason: one series per request; belongs in the log line
+  - name: uri
+    reason: unbounded and attacker-influenced; use the route template
+  - name: exception_message
+    reason: unbounded free text; classify into a finite error_kind
+  - name: device_id
+    reason: entity identity; query logs instead
+
+review:
+  total_expected_series: 1940
+  series_budget: 5000
+  reviewed_by: ""
+  reviewed_at: ""
