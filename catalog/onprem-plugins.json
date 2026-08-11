@@ -15,7 +15,9 @@
         "victoriametrics",
         "prometheus"
       ],
-      "skills": []
+      "skills": [
+        "./skills/onprem-observability/observability-contract"
+      ]
     },
     {
       "name": "onprem-observability-adapters",

@@ -198,7 +198,9 @@
         "prometheus"
       ],
       "managed_by": "onprem-catalog",
-      "skills": []
+      "skills": [
+        "./skills/onprem-observability/observability-contract"
+      ]
     },
     {
       "name": "onprem-observability-adapters",

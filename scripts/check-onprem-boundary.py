@@ -116,6 +116,10 @@ def check(
     # The policy file lists the forbidden strings by definition, so scanning it
     # would report itself. Same for the allowlist it produces.
     self_excluded = {Path(policy_path).resolve()} if policy_path else set()
+    # Files that must name the forbidden values in order to refuse them.
+    repo_root = Path(policy_path).resolve().parents[1] if policy_path else Path.cwd()
+    for refusal in policy.get("documented_refusal_paths", ()):  # exact paths only
+        self_excluded.add((repo_root / refusal).resolve())
     for root in scan_roots or []:
         if not Path(root).exists():
             continue

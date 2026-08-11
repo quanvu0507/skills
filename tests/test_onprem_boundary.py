@@ -134,3 +134,20 @@ def test_repository_passes_its_own_policy() -> None:
         policy_path=POLICY_PATH,
     )
     assert findings == [], findings
+
+
+def test_documented_refusal_paths_are_exact_files(policy) -> None:
+    """The exemption must never widen into a directory or a glob."""
+    for entry in policy.get("documented_refusal_paths", []):
+        assert "*" not in entry
+        assert (REPO_ROOT / entry).is_file(), entry
+
+
+def test_refusal_exemption_does_not_cover_siblings(tmp_path: Path, policy) -> None:
+    """A file next to an exempt one is still scanned."""
+    scan = REPO_ROOT / "skills" / "onprem-observability" / "observability-contract"
+    findings = checker.check(
+        policy, marketplace=None, scan_roots=[scan],
+        source_mode="local-checkout", policy_path=POLICY_PATH,
+    )
+    assert findings == [], findings

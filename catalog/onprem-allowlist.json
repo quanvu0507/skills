@@ -10,7 +10,8 @@
     "skills/grafana-core/grafana-oss",
     "skills/grafana-core/promql",
     "skills/grafana-lgtm/loki",
-    "skills/grafana-lgtm/prometheus"
+    "skills/grafana-lgtm/prometheus",
+    "skills/onprem-observability/observability-contract"
   ],
   "declared_but_not_yet_present": [
     "skills/onprem-observability-adapters/rust",
@@ -20,7 +21,6 @@
     "skills/onprem-observability/kubernetes-observability",
     "skills/onprem-observability/log-pipeline",
     "skills/onprem-observability/metrics-pipeline",
-    "skills/onprem-observability/observability-contract",
     "skills/onprem-observability/observability-review",
     "skills/onprem-observability/vm-docker-observability"
   ]

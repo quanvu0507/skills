@@ -35,6 +35,13 @@ forbidden_literals:
   - LogsPublisher
   - TracesPublisher
 
+# Files whose purpose is to name what must be refused. A skill cannot teach an
+# agent to reject "glc_" tokens or grafana.net endpoints without writing them
+# down, so these paths are exempt from the domain/literal scan. Keep the list
+# short and exact — never a directory or a glob.
+documented_refusal_paths:
+  - skills/onprem-observability/observability-contract/references/skill-routing.md
+
 # Paths scanned for forbidden domains and literals. Immutable upstream skill text
 # is deliberately out of scope — see immutable_upstream_content_policy.
 scan_scope:

@@ -1,0 +1,46 @@
+schema_version: 1
+skill: observability-contract
+path: skills/onprem-observability/observability-contract
+
+positive:
+  - id: standardize-logs
+    prompt: "Standardize the log format across our internal services so we can query them in Loki."
+  - id: add-metrics
+    prompt: "Add request rate, error rate and latency metrics to this service."
+  - id: integrate-loki-grafana
+    prompt: "Integrate our application logs with Loki and build a Grafana view for them."
+  - id: review-observability-plan
+    prompt: "Review this observability plan before we start implementing it."
+  - id: design-label-strategy
+    prompt: "Design a metric label strategy that will not blow up cardinality."
+  - id: legacy-scala-play-service
+    prompt: "We have a legacy Scala/Play service with no instrumentation. Where do we start?"
+  - id: victoriametrics-backed-grafana
+    prompt: "Our Grafana is backed by VictoriaMetrics. How should the app expose metrics?"
+
+negative:
+  - id: generic-rust-question
+    prompt: "How do I model ownership for a linked list in Rust?"
+    reason: "Language question with no observability content."
+  - id: css-redesign
+    prompt: "Redesign the marketing page header with a new colour scheme."
+    reason: "Front-end styling, unrelated to telemetry."
+  - id: ordinary-git-rebase
+    prompt: "How do I rebase my branch onto main and squash the last three commits?"
+    reason: "Version-control workflow, unrelated to telemetry."
+  - id: kubernetes-storage-task
+    prompt: "Resize the PersistentVolumeClaim for our PostgreSQL StatefulSet."
+    reason: "Kubernetes storage, not observability."
+  - id: grafana-cloud-otlp-gateway
+    prompt: "Configure the Grafana Cloud OTLP gateway to receive our traces."
+    reason: "Cloud data plane is out of scope; the skill must refuse and offer the on-prem equivalent."
+  - id: adaptive-metrics-dpm-finder
+    prompt: "Run Adaptive Metrics and DPM Finder to cut our cloud metrics bill."
+    reason: "Grafana Cloud cost-management product; not available on-prem."
+
+forbidden_outputs:
+  - "grafana.net"
+  - "glc_"
+  - "MetricsPublisher"
+  - "ServiceMonitor"
+  - "PrometheusRule"
