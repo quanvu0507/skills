@@ -785,6 +785,17 @@
       "description": "Language and framework adapters that implement the on-premises observability contract without assuming a specific runtime or orchestrator.",
       "skills": [
         {
+          "name": "rust",
+          "description": "Instrument Rust services, workers and desktop applications for on-premises observability. Covers structured JSON logging with tracing, Prometheus-compatible exporters gated on the environment profile, Tokio task and channel boundaries, cancellation and timeout outcomes, and desktop-local diagnostics without a background exporter. Use when adding or reviewing logging, metrics or health signals in a Rust service, a Tokio worker, an Axum API or a Rust desktop application.",
+          "path": "skills/onprem-observability-adapters/rust",
+          "tags": [
+            "observability",
+            "onprem",
+            "instrumentation",
+            "adapters"
+          ]
+        },
+        {
           "name": "scala-play",
           "description": "Instrument Scala/Play/Akka services for on-premises Prometheus-compatible metrics and JSON logging without changing business behaviour. Covers a private CollectorRegistry, reusing the existing Play port and request lifecycle, normalized route labels, safe Kafka consumer metrics, advisory-lock scheduled-job outcomes, Logback JSON encoding and health-state semantics. Use when adding or reviewing metrics, logging or health endpoints in a Scala, Play or Akka service, or when a legacy Play service must expose /metrics to VictoriaMetrics.",
           "path": "skills/onprem-observability-adapters/scala-play",

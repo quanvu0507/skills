@@ -216,6 +216,7 @@
       ],
       "managed_by": "onprem-catalog",
       "skills": [
+        "./skills/onprem-observability-adapters/rust",
         "./skills/onprem-observability-adapters/scala-play"
       ]
     }

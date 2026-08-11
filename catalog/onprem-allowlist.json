@@ -11,11 +11,11 @@
     "skills/grafana-core/promql",
     "skills/grafana-lgtm/loki",
     "skills/grafana-lgtm/prometheus",
+    "skills/onprem-observability-adapters/rust",
     "skills/onprem-observability-adapters/scala-play",
     "skills/onprem-observability/observability-contract"
   ],
   "declared_but_not_yet_present": [
-    "skills/onprem-observability-adapters/rust",
     "skills/onprem-observability/application-instrumentation",
     "skills/onprem-observability/grafana-operations",
     "skills/onprem-observability/kubernetes-observability",

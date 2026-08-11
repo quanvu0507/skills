@@ -1,0 +1,40 @@
+schema_version: 1
+skill: rust
+path: skills/onprem-observability-adapters/rust
+
+positive:
+  - id: rust-axum-vm-systemd
+    prompt: "Add metrics to our Rust Axum API running under systemd on a VM."
+    environment: vm-systemd
+    expected_skills: [rust, vm-docker-observability]
+    forbidden_skills: [kubernetes-observability, scala-play]
+  - id: rust-tokio-worker-kubernetes
+    prompt: "Instrument this Rust Tokio worker deployed on Kubernetes."
+    environment: kubernetes-talos
+    expected_skills: [rust, kubernetes-observability]
+    forbidden_skills: [vm-docker-observability, scala-play]
+  - id: rust-macos-desktop
+    prompt: "Add diagnostics to our Rust macOS desktop application."
+    environment: desktop-local
+    expected_skills: [rust, observability-contract, observability-review]
+    forbidden_skills: [kubernetes-observability, vm-docker-observability]
+    notes: "No central scrape and no background exporter unless the profile enables it."
+  - id: rust-cancellation-metrics
+    prompt: "Our in-flight gauge keeps climbing in this Tokio service. How should we record cancellation?"
+
+negative:
+  - id: generic-cpp
+    prompt: "How do I avoid a dangling reference in this C++ template?"
+    reason: "Different language; the Rust adapter must not be selected."
+  - id: scala-play-service
+    prompt: "Add a Prometheus registry to our Play 2.8 Scala service."
+    reason: "The Scala/Play adapter applies instead."
+  - id: dashboard-layout
+    prompt: "Rearrange the panels on our Grafana overview dashboard."
+    reason: "Grafana operations, not application instrumentation."
+
+forbidden_outputs:
+  - "OTLP"
+  - "Tempo"
+  - "grafana.net"
+  - "second management server"
