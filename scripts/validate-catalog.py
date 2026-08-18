@@ -29,7 +29,11 @@ MARKETPLACE_FILES = (
 REGISTRY_FILE = "skill-registry.json"
 ALLOWLIST_FILE = "catalog/onprem-allowlist.json"
 POLICY_FILE = "catalog/onprem-policy.yaml"
-CUSTOM_GROUPS = ("onprem-observability", "onprem-observability-adapters")
+CUSTOM_GROUPS = (
+    "onprem-observability",
+    "onprem-observability-adapters",
+    "onprem-platform",
+)
 
 FRONTMATTER_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*\n", re.DOTALL)
 

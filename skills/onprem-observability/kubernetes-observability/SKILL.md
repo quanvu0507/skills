@@ -2,7 +2,7 @@
 name: kubernetes-observability
 license: Apache-2.0
 compatibility: "Kubernetes, Talos, VictoriaMetrics Operator (VMServiceScrape/VMRule), Grafana OSS, Loki OSS, Alloy, GitOps; no Grafana Cloud dependency"
-description: "GitOps observability for on-premises Kubernetes backed by the VictoriaMetrics Operator. Covers VMServiceScrape targeting, VMRule rollout gates, dashboard ownership between source JSON and generated ConfigMaps, and gateway protection of management paths. Use when adding or reviewing scrape configuration, alert rules, dashboards or ingress policy for a service on Kubernetes or Talos, and whenever ServiceMonitor or PrometheusRule is proposed in a VictoriaMetrics cluster."
+description: "GitOps observability for on-premises Kubernetes backed by the VictoriaMetrics Operator. Covers VMServiceScrape targeting, VMRule rollout gates, dashboard ownership between source JSON and generated ConfigMaps, and gateway protection of management paths. Use when adding or reviewing scrape configuration, alert rules, dashboards or ingress policy for a service on Kubernetes or Talos, and whenever ServiceMonitor or PrometheusRule is proposed in a VictoriaMetrics cluster. Use deploying-to-talos-gitops as the counterpart for image identity, promotion, rollout verification, rollback, and Talos machine configuration."
 ---
 
 # Kubernetes observability (VictoriaMetrics GitOps)
@@ -13,6 +13,15 @@ with `features.vmservicescrape: true`. For Docker, VM/systemd or bare metal use
 YAML that nothing reconciles.
 
 Read [`observability-contract`](../observability-contract/SKILL.md) first.
+
+## Deployment counterpart
+
+This skill owns scrape resources, alert rules, dashboards, gateway policy, and
+whether a release is observable enough to verify. It does not own image identity,
+promotion, rollout verification, rollback, or Talos machine configuration; route
+those concerns to `deploying-to-talos-gitops`. Load both skills for a workload
+change that also adds observability, and let the deployment skill define the
+multi-repository landing order.
 
 ## Use the VictoriaMetrics resources
 

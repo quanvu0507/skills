@@ -471,6 +471,19 @@
       "react",
       "migration",
       "react-19"
+    ],
+    "skills/onprem-platform/deploying-to-talos-gitops": [
+      "deployment",
+      "release",
+      "promotion",
+      "rollback",
+      "kubernetes",
+      "talos",
+      "gitops",
+      "argocd",
+      "oci",
+      "digest",
+      "provenance"
     ]
   }
 }

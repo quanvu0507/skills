@@ -27,6 +27,7 @@ SHA_RE = re.compile(r"^[0-9a-f]{7,64}$")
 ALLOWED_PATTERNS = (
     "skills/onprem-observability/**",
     "skills/onprem-observability-adapters/**",
+    "skills/onprem-platform/**",
     "catalog/**",
     "fork-config/**",
     "scripts/**",

@@ -41,6 +41,23 @@
         "./skills/onprem-observability-adapters/rust",
         "./skills/onprem-observability-adapters/scala-play"
       ]
+    },
+    {
+      "name": "onprem-platform",
+      "description": "Agent-safe on-premises platform delivery skills for immutable GitOps promotion, Talos machine configuration, runtime evidence, and Git-based rollback.",
+      "version": "0.1.0",
+      "category": "deployment",
+      "tags": [
+        "onprem",
+        "kubernetes",
+        "talos",
+        "gitops",
+        "argocd",
+        "oci"
+      ],
+      "skills": [
+        "./skills/onprem-platform/deploying-to-talos-gitops"
+      ]
     }
   ]
 }

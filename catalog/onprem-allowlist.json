@@ -20,7 +20,8 @@
     "skills/onprem-observability/metrics-pipeline",
     "skills/onprem-observability/observability-contract",
     "skills/onprem-observability/observability-review",
-    "skills/onprem-observability/vm-docker-observability"
+    "skills/onprem-observability/vm-docker-observability",
+    "skills/onprem-platform/deploying-to-talos-gitops"
   ],
   "declared_but_not_yet_present": []
 }
