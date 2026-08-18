@@ -20,6 +20,7 @@ allowed_skill_paths:
   - skills/onprem-observability/observability-review
   - skills/onprem-observability-adapters/scala-play
   - skills/onprem-observability-adapters/rust
+  - skills/onprem-platform/deploying-to-talos-gitops
 
 forbidden_skill_prefixes:
   - skills/grafana-cloud/
@@ -47,6 +48,7 @@ documented_refusal_paths:
 scan_scope:
   - skills/onprem-observability/**
   - skills/onprem-observability-adapters/**
+  - skills/onprem-platform/**
   - catalog/**
   - selections/**
   - generated-config/**

@@ -55,6 +55,7 @@ jobs:
             --marketplace .agents-plugin/marketplace.json \
             --scan skills/onprem-observability \
             --scan skills/onprem-observability-adapters \
+            --scan skills/onprem-platform \
             --scan catalog/onprem-allowlist.json
 
       - name: Upstream boundary

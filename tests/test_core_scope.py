@@ -14,6 +14,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CORE = REPO_ROOT / "skills" / "onprem-observability"
 ADAPTERS = REPO_ROOT / "skills" / "onprem-observability-adapters"
+PLATFORM = REPO_ROOT / "skills" / "onprem-platform"
 
 TEXT_SUFFIXES = {".md", ".yaml", ".yml", ".json", ".sh", ".py"}
 
@@ -79,12 +80,24 @@ def test_adapters_contain_no_project_identifier() -> None:
     assert _scan(ADAPTERS, PROJECT_IDENTIFIER_PATTERNS) == []
 
 
+def test_platform_skills_contain_no_project_identifier() -> None:
+    assert _scan(PLATFORM, PROJECT_IDENTIFIER_PATTERNS) == []
+
+
 def test_core_skills_impose_no_project_control_flow() -> None:
     assert _scan(CORE, PROJECT_CONTROL_FLOW_PATTERNS) == []
 
 
+def test_platform_skills_impose_no_project_control_flow() -> None:
+    assert _scan(PLATFORM, PROJECT_CONTROL_FLOW_PATTERNS) == []
+
+
 def test_core_skills_assume_no_mandatory_stack() -> None:
     assert _scan(CORE, MANDATORY_STACK_PATTERNS) == []
+
+
+def test_platform_skills_assume_no_mandatory_stack() -> None:
+    assert _scan(PLATFORM, MANDATORY_STACK_PATTERNS) == []
 
 
 def test_core_skills_do_not_assume_kubernetes_everywhere() -> None:
@@ -114,7 +127,11 @@ def test_core_skills_do_not_assume_kubernetes_everywhere() -> None:
 
 
 def test_every_core_skill_declares_onprem_compatibility() -> None:
-    for skill_md in sorted(CORE.glob("*/SKILL.md")) + sorted(ADAPTERS.glob("*/SKILL.md")):
+    for skill_md in (
+        sorted(CORE.glob("*/SKILL.md"))
+        + sorted(ADAPTERS.glob("*/SKILL.md"))
+        + sorted(PLATFORM.glob("*/SKILL.md"))
+    ):
         head = skill_md.read_text(encoding="utf-8")[:2000]
         assert "compatibility:" in head, skill_md
         assert "no Grafana Cloud" in head, skill_md
@@ -129,6 +146,7 @@ def test_every_core_skill_declares_onprem_compatibility() -> None:
 ARTIFACT_TEMPLATES = {
     "skills/onprem-observability/observability-review/assets/review-report.template.md": "reviews",
     "skills/onprem-observability/observability-review/assets/validation-matrix.template.md": "validation",
+    "skills/onprem-platform/deploying-to-talos-gitops/assets/deployment-evidence.template.md": "evidence",
 }
 
 
@@ -161,6 +179,52 @@ def test_templates_do_not_hardcode_a_repository_specific_path() -> None:
     for relative in ARTIFACT_TEMPLATES:
         text = (REPO_ROOT / relative).read_text(encoding="utf-8")
         assert "<artifacts.root>" in text, f"{relative}: hardcodes a path"
+
+
+# --- deployment counterpart and output contract --------------------------
+
+KUBERNETES_OBSERVABILITY_SKILL = (
+    REPO_ROOT / "skills/onprem-observability/kubernetes-observability/SKILL.md"
+)
+TALOS_GITOPS_SKILL = REPO_ROOT / "skills/onprem-platform/deploying-to-talos-gitops/SKILL.md"
+
+
+def _description(skill_md: Path) -> str:
+    text = skill_md.read_text(encoding="utf-8")
+    return text.split("---", 2)[1]
+
+
+def test_kubernetes_observability_description_names_its_deployment_counterpart() -> None:
+    assert "deploying-to-talos-gitops" in _description(KUBERNETES_OBSERVABILITY_SKILL)
+
+
+def test_talos_gitops_description_names_its_observability_counterpart() -> None:
+    assert "kubernetes-observability" in _description(TALOS_GITOPS_SKILL)
+
+
+def test_talos_gitops_skill_has_complete_release_evidence_output_contract() -> None:
+    text = TALOS_GITOPS_SKILL.read_text(encoding="utf-8")
+    for heading in (
+        "Scope and deployment layer",
+        "Release identity",
+        "Repositories and files",
+        "Validation evidence",
+        "Promotion or GitOps change",
+        "Rollout evidence",
+        "Rollback point",
+        "Risks and unverified items",
+    ):
+        assert heading in text
+    for identity in ("BUILD_VERSION", "SOURCE_REVISION", "IMAGE_DIGEST"):
+        assert identity in text
+    for evidence_level in (
+        "source-confirmed",
+        "runtime-evidence-supplied",
+        "runtime-reproduced",
+        "inference",
+        "not-verified",
+    ):
+        assert evidence_level in text
 
 
 # --- dashboard review checklist -------------------------------------------

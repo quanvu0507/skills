@@ -61,6 +61,14 @@ npx skills add grafana/skills
 
 Skills are organized into plugin groups. All skill files live under `skills/<plugin-name>/`.
 
+### onprem-platform
+
+Agent-safe on-premises platform delivery through immutable GitOps workflows.
+
+| Skill | Description |
+|-------|-------------|
+| [deploying-to-talos-gitops](skills/onprem-platform/deploying-to-talos-gitops) | Plan, review, promote, verify, and roll back digest-pinned Kubernetes releases or Talos machine-config changes through project-defined GitOps contracts |
+
 ### grafana-core
 
 Core Grafana concepts — dashboards, visualization, PromQL, alerting, and telemetry collection.
@@ -186,6 +194,7 @@ grafana-skills/
 │   ├── grafana-plugins/
 │   ├── grafana-app-sdk/
 │   ├── grafana-k6/
+│   ├── onprem-platform/
 │   └── grafana-datasources/
 ├── template/SKILL.md                 # Starter template for new skills
 ├── scripts/lint-skills.sh            # Local skill validation

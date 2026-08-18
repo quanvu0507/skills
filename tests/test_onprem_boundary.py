@@ -129,7 +129,11 @@ def test_repository_passes_its_own_policy() -> None:
     findings = checker.check(
         policy,
         marketplace=REPO_ROOT / ".agents-plugin" / "marketplace.json",
-        scan_roots=[REPO_ROOT / "skills" / "onprem-observability", REPO_ROOT / "catalog"],
+        scan_roots=[
+            REPO_ROOT / "skills" / "onprem-observability",
+            REPO_ROOT / "skills" / "onprem-platform",
+            REPO_ROOT / "catalog",
+        ],
         source_mode="local-checkout",
         policy_path=POLICY_PATH,
     )

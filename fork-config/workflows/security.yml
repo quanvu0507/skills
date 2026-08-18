@@ -41,7 +41,7 @@ jobs:
       - name: Reject secret-like content
         run: |
           if git grep -nE '(BEGIN (RSA|OPENSSH|EC) PRIVATE KEY|glc_[A-Za-z0-9_-]+|password[[:space:]]*[:=])' -- \
-              'skills/onprem-observability*' 'catalog' 'docs' 'scripts' 'fork-config' 'tests' \
+              'skills/onprem-observability*' 'skills/onprem-platform' 'catalog' 'docs' 'scripts' 'fork-config' 'tests' \
               ':!tests/fixtures/**' ':!**/__pycache__/**' \
               ':!scripts/scan-public-content.py' ':!tests/test_public_content.py' \
               ':!tests/test_onprem_boundary.py' ':!scripts/check-onprem-boundary.py' \

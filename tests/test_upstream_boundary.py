@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import importlib.util
 import subprocess
 import sys
 from pathlib import Path
@@ -10,6 +11,12 @@ import pytest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CHECKER = REPO_ROOT / "scripts" / "check-upstream-boundary.py"
+
+_checker_spec = importlib.util.spec_from_file_location("check_upstream_boundary", CHECKER)
+assert _checker_spec and _checker_spec.loader
+checker = importlib.util.module_from_spec(_checker_spec)
+sys.modules["check_upstream_boundary"] = checker
+_checker_spec.loader.exec_module(checker)
 
 
 def _git(repo: Path, *args: str) -> str:
@@ -66,7 +73,7 @@ def test_adding_custom_onprem_skill_is_accepted(baseline_repo) -> None:
     repo, base = baseline_repo
     _write(
         repo,
-        "skills/onprem-observability/example/SKILL.md",
+        "skills/onprem-platform/example/SKILL.md",
         "---\nname: example\n---\n# Example\n",
     )
     _git(repo, "add", "-A")
@@ -74,6 +81,10 @@ def test_adding_custom_onprem_skill_is_accepted(baseline_repo) -> None:
 
     result = _run_checker(repo, base)
     assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_platform_skills_are_an_explicit_allowed_fork_delta() -> None:
+    assert checker.is_allowed("skills/onprem-platform/example/SKILL.md")
 
 
 def test_regenerated_manifest_is_accepted(baseline_repo) -> None:

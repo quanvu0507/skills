@@ -28,6 +28,10 @@ def test_repository_is_clean() -> None:
     assert scan_public_content.scan(REPO_ROOT, scan_public_content.DEFAULT_TARGETS) == []
 
 
+def test_platform_skills_are_included_in_the_public_content_scan() -> None:
+    assert "skills/onprem-platform" in scan_public_content.DEFAULT_TARGETS
+
+
 def test_private_project_name_is_rejected(tmp_path: Path) -> None:
     findings = _scan(tmp_path, "docs/example.md", "See waylens-fms-gps for details.\n")
     assert findings and "private project identifier" in findings[0]

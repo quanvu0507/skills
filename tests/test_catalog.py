@@ -8,6 +8,7 @@ them to a single source of truth.
 from __future__ import annotations
 
 import json
+import importlib.util
 import subprocess
 import sys
 from pathlib import Path
@@ -25,6 +26,14 @@ CUSTOM_PLUGINS = REPO_ROOT / "catalog" / "onprem-plugins.json"
 POLICY = REPO_ROOT / "catalog" / "onprem-policy.yaml"
 ALLOWLIST = REPO_ROOT / "catalog" / "onprem-allowlist.json"
 
+_validator_spec = importlib.util.spec_from_file_location(
+    "validate_prompt_fixture", REPO_ROOT / "scripts" / "validate-prompt-fixture.py"
+)
+assert _validator_spec and _validator_spec.loader
+validator = importlib.util.module_from_spec(_validator_spec)
+sys.modules["validate_prompt_fixture"] = validator
+_validator_spec.loader.exec_module(validator)
+
 
 def _json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
@@ -37,6 +46,14 @@ def _marketplace_skill_paths() -> list[str]:
         for plugin in marketplace["plugins"]
         for skill in plugin["skills"]
     ]
+
+
+def _custom_skill_paths(root: Path) -> set[str]:
+    return {
+        skill_md.parent.relative_to(root).as_posix()
+        for group in validator.custom_skill_groups(root)
+        for skill_md in (root / "skills" / group).glob("*/SKILL.md")
+    }
 
 
 def test_three_marketplace_files_are_byte_identical() -> None:
@@ -63,12 +80,25 @@ def test_no_duplicate_plugin_or_skill_path() -> None:
 def test_every_custom_skill_is_registered() -> None:
     """A custom skill on disk that nobody declared is invisible to every host."""
     declared = set(_marketplace_skill_paths())
-    on_disk = {
-        skill_md.parent.relative_to(REPO_ROOT).as_posix()
-        for group in ("onprem-observability", "onprem-observability-adapters")
-        for skill_md in (REPO_ROOT / "skills" / group).glob("*/SKILL.md")
-    }
+    on_disk = _custom_skill_paths(REPO_ROOT)
     assert on_disk - declared == set()
+
+
+def test_catalog_owned_groups_discover_an_undeclared_platform_skill(tmp_path: Path) -> None:
+    """A new catalog group must not make its on-disk skills invisible to hosts."""
+    (tmp_path / "catalog").mkdir()
+    (tmp_path / "catalog" / "onprem-plugins.json").write_text(
+        json.dumps({"plugins": [{"name": "onprem-platform"}]}), encoding="utf-8"
+    )
+    skill = tmp_path / "skills" / "onprem-platform" / "example" / "SKILL.md"
+    skill.parent.mkdir(parents=True)
+    skill.write_text("---\nname: example\n---\n# Example\n", encoding="utf-8")
+
+    assert validator.custom_skill_groups(tmp_path) == ("onprem-platform",)
+    assert validator.known_skills(tmp_path) == {"example"}
+    assert _custom_skill_paths(tmp_path) - set() == {
+        "skills/onprem-platform/example"
+    }
 
 
 def test_registry_contains_all_marketplace_skills() -> None:

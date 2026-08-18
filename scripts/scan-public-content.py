@@ -23,6 +23,7 @@ from pathlib import Path
 DEFAULT_TARGETS = (
     "skills/onprem-observability",
     "skills/onprem-observability-adapters",
+    "skills/onprem-platform",
     "catalog",
     "docs",
     "scripts",
