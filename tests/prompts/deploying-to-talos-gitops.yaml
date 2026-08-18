@@ -1,0 +1,36 @@
+schema_version: 1
+skill: deploying-to-talos-gitops
+path: skills/onprem-platform/deploying-to-talos-gitops
+
+positive:
+  - id: deploy-talos-workload
+    prompt: "Deploy this tested image digest through our Talos GitOps repository."
+    environment: kubernetes-talos
+  - id: promote-talos-digest
+    prompt: "Promote this tested image digest to staging through our Talos GitOps repository."
+    environment: kubernetes-talos
+  - id: rollback-talos-release
+    prompt: "Roll back this Talos GitOps release to the last verified image digest."
+    environment: kubernetes-talos
+  - id: review-talos-machine-config
+    prompt: "Review and apply this Talos machine-config patch safely."
+    environment: kubernetes-talos
+  - id: verify-gitops-rollout
+    prompt: "Argo says Healthy; verify whether the release really completed."
+    environment: kubernetes-talos
+
+negative:
+  - id: add-vmservicescrape
+    prompt: "Add a VMServiceScrape for this existing workload."
+    environment: kubernetes-talos
+    reason: "kubernetes-observability owns scrape resources; no release identity changes."
+  - id: docker-compose-restart
+    prompt: "Restart this Docker Compose service on its VM."
+    environment: docker-dokploy
+    reason: "The service is not managed by Talos GitOps."
+
+forbidden_outputs:
+  - "kubectl set image"
+  - "kubectl rollout undo"
+  - "image: latest"
+  - "Synced and Healthy is sufficient"

@@ -19,14 +19,13 @@ Exit codes:
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-SKILL_GROUPS = ("onprem-observability", "onprem-observability-adapters")
-
 # Environments the fixtures may reference, and the runtime skill each implies.
 ENVIRONMENT_RUNTIME_SKILL = {
     "kubernetes-talos": "kubernetes-observability",
@@ -37,10 +36,17 @@ ENVIRONMENT_RUNTIME_SKILL = {
 }
 
 
+def custom_skill_groups(root: Path) -> tuple[str, ...]:
+    payload = json.loads(
+        (root / "catalog/onprem-plugins.json").read_text(encoding="utf-8")
+    )
+    return tuple(plugin["name"] for plugin in payload["plugins"])
+
+
 def known_skills(root: Path) -> set[str]:
     return {
         skill_md.parent.name
-        for group in SKILL_GROUPS
+        for group in custom_skill_groups(root)
         for skill_md in (root / "skills" / group).glob("*/SKILL.md")
     }
 
